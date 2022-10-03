@@ -11,7 +11,7 @@
 
 ## next
 
-```next.ipynb
+```next.py
 import torch
 from torch import autocast
 import requests
@@ -36,7 +36,7 @@ pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
 
 # generate
 
-```generate.ipynb
+```generate.py
 
 outdir = "/content/drive/MyDrive/colab/sd/sample1"
 count = 10
