@@ -38,11 +38,11 @@ pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
 
 ```generate.py
 
-outdir = "/content/drive/MyDrive/colab/sd/sample1"
+outdir = "/content/drive/MyDrive/colab/sd1"
 count = 10
 prompt = "A glass of coffee float is on the table"
 
-shitae = "/content/drive/MyDrive/colab/sample1/stand_woman_summer.png"
+shitae = "/content/drive/MyDrive/colab/stand_woman_summer.png"
 
 init_image = Image.open(shitae).convert("RGB")
 init_image = init_image.resize((768, 512))
@@ -53,8 +53,8 @@ os.chdir(outdir)
 
 for i in range(count):
   with autocast("cuda"):
-#    images = pipe(prompt=prompt, init_image=init_image, strength=0.75, guidance_scale=7.5)["sample"]
-    images = pipe(prompt=prompt, strength=0.75, guidance_scale=7.5)["sample"]
+    images = pipe(prompt=prompt, init_image=init_image, strength=0.75, guidance_scale=7.5)["sample"]
+#    images = pipe(prompt=prompt, strength=0.75, guidance_scale=7.5)["sample"]
 
     images[0].save("image" + str(i) + ".png")
 ```
