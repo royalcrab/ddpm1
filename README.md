@@ -43,7 +43,7 @@ outdir = "/content/drive/MyDrive/colab/sd1"
 count = 10
 prompt = "A glass of coffee float is on the table"
 
-shitae = "/content/drive/MyDrive/colab/stand_woman_summer.png"
+shitae = "/content/drive/MyDrive/colab/1.png"
 
 init_image = Image.open(shitae).convert("RGB")
 init_image = init_image.resize((768, 512))
