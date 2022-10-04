@@ -46,7 +46,7 @@ pipe1 = StableDiffusionImg2ImgPipeline.from_pretrained(
 pipe2 = StableDiffusionPipeline.from_pretrained(
 	"CompVis/stable-diffusion-v1-4", 
 	use_auth_token=True
-).to("cuda")
+).to(device)
 ```
 
 一回目の実行時には、URL のついたエラーが表示される。
