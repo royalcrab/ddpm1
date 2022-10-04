@@ -18,10 +18,11 @@ import requests
 from PIL import Image
 from io import BytesIO
 import os
+from google.colab import drive
 
 from diffusers import StableDiffusionImg2ImgPipeline
 
-
+drive.mount('/content/drive')
 os.chdir('/content/drive/MyDrive/colab')
 
 # load the pipeline
