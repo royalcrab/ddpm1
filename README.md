@@ -26,8 +26,23 @@ import os
 from google.colab import drive
 
 from diffusers import StableDiffusionImg2ImgPipeline
+from diffusers import StableDiffusionPipeline
 
 drive.mount('/content/drive')
+
+# load the pipeline
+device = "cuda"
+pipe1 = StableDiffusionImg2ImgPipeline.from_pretrained(
+    "CompVis/stable-diffusion-v1-4",
+    revision="fp16", 
+    torch_dtype=torch.float16,
+    use_auth_token=True
+).to(device)
+
+pipe2 = StableDiffusionPipeline.from_pretrained(
+	"CompVis/stable-diffusion-v1-4", 
+	use_auth_token=True
+).to("cuda")
 ```
 
 一回目の実行時には、URL のついたエラーが表示される。
@@ -41,18 +56,13 @@ outdir = "/content/drive/MyDrive/colab/sd1"
 count = 10
 prompt = "A glass of coffee float is put on he table"
 
-pipe = StableDiffusionPipeline.from_pretrained(
-	"CompVis/stable-diffusion-v1-4", 
-	use_auth_token=True
-).to("cuda")
-
 if not os.path.exists(outdir):
   os.mkdir(outdir)
 os.chdir(outdir)
 
 for i in range(count):
     with autocast("cuda"):
-        image = pipe(prompt)["sample"][0]  
+        images = pipe1(prompt)["sample"]  
         images[0].save("image" + str(i) + ".png")
 ```
 
@@ -74,19 +84,9 @@ if not os.path.exists(outdir):
   os.mkdir(outdir)
 os.chdir(outdir)
 
-# load the pipeline
-device = "cuda"
-pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
-    "CompVis/stable-diffusion-v1-4",
-    revision="fp16", 
-    torch_dtype=torch.float16,
-    use_auth_token=True
-).to(device)
-
 for i in range(count):
   with autocast("cuda"):
-    images = pipe(prompt=prompt, init_image=init_image, strength=0.75, guidance_scale=7.5)["sample"]
-#    images = pipe(prompt=prompt, strength=0.75, guidance_scale=7.5)["sample"]
+    images = pipe2(prompt=prompt, init_image=init_image, strength=0.75, guidance_scale=7.5)["sample"]
 
     images[0].save("image" + str(i) + ".png")
 ```
