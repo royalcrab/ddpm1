@@ -30,6 +30,10 @@ from diffusers import StableDiffusionPipeline
 
 drive.mount('/content/drive')
 
+codir = "/content/drive/MyDrive/colab/"
+if not os.path.exists(codir):
+  os.mkdir(codir)
+
 # load the pipeline
 device = "cuda"
 pipe1 = StableDiffusionImg2ImgPipeline.from_pretrained(
