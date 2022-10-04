@@ -9,7 +9,12 @@
 !pip install git+https://github.com/huggingface/diffusers.git
 ```
 
+https://huggingface.co/ でアカウントを作成し、トークンを生成する。
+アカウントを作るとメールが送られてくるので、メールにあるリンク先を開いて、アカウントを有効化する。
+
 ## next
+
+Google Drive のルートディレクトリ（トップのフォルダ）に "colab" という名前のフォルダを作成しておく。
 
 ```next.py
 import torch
@@ -35,7 +40,13 @@ pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
 ).to(device)
 ```
 
+一回目の実行時には、URL のついたエラーが表示される。
+表示された URL を開くと huggingface.co のサイトへ飛ぶので、そのページに表示されているライセンスに同意する。
+同意した状態で、再度上のコードを実行すると、実行できるはず。
+
 # generate
+
+Google Drive の colab フォルダ以下に、1.png というファイルを置いておく（下絵として）。
 
 ```generate.py
 
