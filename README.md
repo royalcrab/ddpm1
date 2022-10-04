@@ -28,28 +28,39 @@ from google.colab import drive
 from diffusers import StableDiffusionImg2ImgPipeline
 
 drive.mount('/content/drive')
-os.chdir('/content/drive/MyDrive/colab')
-
-# load the pipeline
-device = "cuda"
-pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
-    "CompVis/stable-diffusion-v1-4",
-    revision="fp16", 
-    torch_dtype=torch.float16,
-    use_auth_token=True
-).to(device)
 ```
 
 一回目の実行時には、URL のついたエラーが表示される。
 表示された URL を開くと huggingface.co のサイトへ飛ぶので、そのページに表示されているライセンスに同意する。
 同意した状態で、再度上のコードを実行すると、実行できるはず。
 
-# generate
+# generate (下絵なし)
+
+```generate.py
+outdir = "/content/drive/MyDrive/colab/sd1"
+count = 10
+prompt = "A glass of coffee float is put on he table"
+
+pipe = StableDiffusionPipeline.from_pretrained(
+	"CompVis/stable-diffusion-v1-4", 
+	use_auth_token=True
+).to("cuda")
+
+if not os.path.exists(outdir):
+  os.mkdir(outdir)
+os.chdir(outdir)
+
+for i in range(count):
+    with autocast("cuda"):
+        image = pipe(prompt)["sample"][0]  
+        images[0].save("image" + str(i) + ".png")
+```
+
+# generate (下絵あり)
 
 Google Drive の colab フォルダ以下に、1.png というファイルを置いておく（下絵として）。
 
 ```generate.py
-
 outdir = "/content/drive/MyDrive/colab/sd1"
 count = 10
 prompt = "A glass of coffee float is on the table"
@@ -62,6 +73,15 @@ init_image = init_image.resize((768, 512))
 if not os.path.exists(outdir):
   os.mkdir(outdir)
 os.chdir(outdir)
+
+# load the pipeline
+device = "cuda"
+pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
+    "CompVis/stable-diffusion-v1-4",
+    revision="fp16", 
+    torch_dtype=torch.float16,
+    use_auth_token=True
+).to(device)
 
 for i in range(count):
   with autocast("cuda"):
